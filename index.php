@@ -5,6 +5,9 @@ include 'includes/header.php';
 // Fetch featured products
 $conn = connectDB();
 $featured_products = $conn->query("SELECT * FROM products ORDER BY RAND() LIMIT 6");
+
+// Fetch categories
+$categories = $conn->query("SELECT * FROM categories");
 ?>
 
 <div class="container fade-in">
@@ -26,31 +29,16 @@ $featured_products = $conn->query("SELECT * FROM products ORDER BY RAND() LIMIT 
     
     <!-- Categories Section -->
     <h2 style="text-align: center; margin: 3rem 0;">Our Categories</h2>
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 4rem;">
-
-        <!-- Grocery Category -->
-        <div class="category-card card hover-lift">
-            <img src="assets/images/grocery.jpg" alt="Grocery">
-            <div class="category-overlay">
-                <h3 class="category-title">Grocery</h3>
-            </div>
-        </div>
-
-        <!-- Fashion Category -->
-        <div class="category-card card hover-lift">
-            <img src="assets/images/fashion.jpg" alt="Fashion">
-            <div class="category-overlay">
-                <h3 class="category-title">Fashion</h3>
-            </div>
-        </div>
-
-        <!-- Electronics Category -->
-        <div class="category-card card hover-lift">
-            <img src="assets/images/electronics.jpg" alt="Electronics">
-            <div class="category-overlay">
-                <h3 class="category-title">Electronics</h3>
-            </div>
-        </div>
+    <div class="category-grid">
+        <?php while($category = $categories->fetch_assoc()): ?>
+            <a href="products.php?categories=<?php echo $category['category_id']; ?>" class="category-card">
+                <img src="<?php echo !empty($category['image_url']) ? 'uploads/' . $category['image_url'] : 'assets/images/category-placeholder.jpg'; ?>" 
+                     alt="<?php echo htmlspecialchars($category['name']); ?>">
+                <div class="category-overlay">
+                    <h3 class="category-title"><?php echo htmlspecialchars($category['name']); ?></h3>
+                </div>
+            </a>
+        <?php endwhile; ?>
     </div>
     
     <!-- Services Section -->
@@ -112,6 +100,6 @@ function addToCart(productId) {
 </script>
 
 <?php 
-$conn->close();
-include 'includes/footer.php'; 
+include 'includes/footer.php';
+$conn->close(); 
 ?> 

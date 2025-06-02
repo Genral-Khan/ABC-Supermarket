@@ -1,40 +1,76 @@
+<?php
+// Fetch categories for footer
+$footerCategories = $conn->query("SELECT * FROM categories");
+?>
+
     </div><!-- Close content container -->
     
     <footer class="footer">
         <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;">
-                <div>
-                    <h3>ABC Supermarket</h3>
-                    <p>Your one-stop shop for groceries, fashion, and electronics.</p>
+            <div class="footer-content">
+                <!-- Company Info -->
+                <div class="footer-section">
+                    <h3 class="footer-title">ABC Supermarket</h3>
+                    <p class="footer-description">Your one-stop shop for quality products at great prices.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
                 </div>
-                
-                <div>
-                    <h4>Quick Links</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="about.php" style="color: white; text-decoration: none;">About Us</a></li>
-                        <li><a href="contact.php" style="color: white; text-decoration: none;">Contact</a></li>
-                        <li><a href="privacy.php" style="color: white; text-decoration: none;">Privacy Policy</a></li>
+
+                <!-- Categories -->
+                <div class="footer-section">
+                    <h3 class="footer-title">Categories</h3>
+                    <ul class="footer-links">
+                        <?php while($category = $footerCategories->fetch_assoc()): ?>
+                            <li>
+                                <a href="products.php?categories=<?php echo $category['category_id']; ?>">
+                                    <?php echo htmlspecialchars($category['name']); ?>
+                                </a>
+                            </li>
+                        <?php endwhile; ?>
                     </ul>
                 </div>
-                
-                <div>
-                    <h4>Categories</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><a href="products.php?category=1" style="color: white; text-decoration: none;">Grocery</a></li>
-                        <li><a href="products.php?category=2" style="color: white; text-decoration: none;">Fashion</a></li>
-                        <li><a href="products.php?category=3" style="color: white; text-decoration: none;">Electronics</a></li>
+
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.php">Home</a></li>
+                        <li><a href="products.php">All Products</a></li>
+                        <li><a href="cart.php">Cart</a></li>
+                        <?php if(isset($_SESSION['user_id'])): ?>
+                            <li><a href="profile.php">My Account</a></li>
+                            <li><a href="orders.php">My Orders</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php">Sign In</a></li>
+                        <?php endif; ?>
                     </ul>
                 </div>
-                
-                <div>
-                    <h4>Contact Us</h4>
-                    <p>Email: info@abcsupermarket.com</p>
-                    <p>Phone: (123) 456-7890</p>
+
+                <!-- Contact Info -->
+                <div class="footer-section">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <ul class="contact-info">
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Shopping Street, City, Country</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+1 234 567 8900</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>contact@abcsupermarket.com</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            
-            <div style="margin-top: 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
-                <p>&copy; 2024 ABC Supermarket. All rights reserved.</p>
+
+            <div class="footer-bottom">
+                <p>&copy; <?php echo date('Y'); ?> ABC Supermarket. All rights reserved.</p>
             </div>
         </div>
     </footer>

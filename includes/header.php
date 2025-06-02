@@ -14,33 +14,68 @@ session_start();
 <body>
     <nav class="navbar">
         <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="nav-content">
+                <!-- Logo -->
                 <a href="index.php" class="navbar-brand">
-                    <i class="fas fa-shopping-cart" style="margin-right: 0.5rem;"></i>
-                    ABC SUPERMARKET
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>ABC SUPERMARKET</span>
                 </a>
-                
-                <div class="search-bar" style="width: 40%; margin: 0 2rem;">
-                    <i class="fas fa-search" style="color: rgba(255,255,255,0.6); margin-right: 0.5rem;"></i>
-                    <input type="text" id="searchInput" placeholder="Search products...">
+
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <form action="products.php" method="GET" class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" 
+                               name="search" 
+                               id="searchInput" 
+                               placeholder="Search products..."
+                               value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+                    </form>
                 </div>
-                
+
+                <!-- Navigation Links -->
                 <div class="nav-links">
-                    <a href="index.php"><i class="fas fa-home"></i> Home</a>
-                    <a href="products.php"><i class="fas fa-box"></i> Products</a>
-                    <a href="cart.php"><i class="fas fa-shopping-basket"></i> Cart</a>
+                    <a href="index.php" class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/index.php') ? 'active' : ''; ?>">
+                        Home
+                    </a>
+                    <a href="products.php" class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/products.php') ? 'active' : ''; ?>">
+                        Products
+                    </a>
+                    <a href="cart.php" class="nav-item <?php echo ($_SERVER['PHP_SELF'] == '/cart.php') ? 'active' : ''; ?>">
+                        Cart
+                    </a>
+                    
                     <?php if(isset($_SESSION['user_id'])): ?>
-                        <a href="profile.php"><i class="fas fa-user"></i> Profile</a>
-                        <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <div class="user-menu">
+                            <button class="user-trigger">
+                                <i class="fas fa-user-circle"></i>
+                                <span><?php echo htmlspecialchars($_SESSION['username'] ?? 'User'); ?></span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="user-dropdown">
+                                <a href="profile.php">
+                                    <i class="fas fa-user"></i> Profile
+                                </a>
+                                <a href="orders.php">
+                                    <i class="fas fa-box"></i> Orders
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="logout.php" class="logout-link">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </div>
+                        </div>
                     <?php else: ?>
-                        <a href="login.php"><i class="fas fa-sign-in-alt"></i> Login</a>
-                        <a href="register.php"><i class="fas fa-user-plus"></i> Register</a>
+                        <a href="login.php" class="auth-button">
+                            <span>Sign In</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
     </nav>
-    
-    <div style="margin-top: 80px;"><!-- Content spacing from fixed navbar -->
+
+    <div class="main-content"><!-- Main content wrapper -->
 </body>
 </html> 
