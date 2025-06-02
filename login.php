@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
         
         <p style="text-align: center; margin-top: 1rem;">
-            Don't have an account? <a href="register.php" style="color: var(--primary-color);">Register here</a>
+            Don't have an account? <a href="register.php" style="color: #ff0000;">Register here</a>
         </p>
     </div>
 </div>

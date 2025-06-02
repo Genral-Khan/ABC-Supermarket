@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
         
         <p style="text-align: center; margin-top: 1rem;">
-            Already have an account? <a href="login.php" style="color: var(--primary-color);">Login here</a>
+            Already have an account? <a href="login.php" style="color: #ff0000;">Login here</a>
         </p>
     </div>
 </div>

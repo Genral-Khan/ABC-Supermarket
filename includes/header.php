@@ -53,13 +53,13 @@ session_start();
                                 <i class="fas fa-chevron-down"></i>
                             </button>
                             <div class="user-dropdown">
-                                <a href="profile.php">
+                                <!-- <a href="profile.php">
                                     <i class="fas fa-user"></i> Profile
                                 </a>
                                 <a href="orders.php">
                                     <i class="fas fa-box"></i> Orders
-                                </a>
-                                <div class="dropdown-divider"></div>
+                                </a> -->
+                                <!-- <div class="dropdown-divider"></div> -->
                                 <a href="logout.php" class="logout-link">
                                     <i class="fas fa-sign-out-alt"></i> Logout
                                 </a>
