@@ -147,6 +147,6 @@ function addToCart(productId) {
 </script>
 
 <?php
-$conn->close();
 include 'includes/footer.php';
+$conn->close();
 ?> 
