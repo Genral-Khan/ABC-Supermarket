@@ -69,9 +69,18 @@ $products = $conn->query($query);
                     <?php while($product = $products->fetch_assoc()): ?>
                         <div class="card product-card">
                             <div class="product-image">
-                                <img src="<?php echo htmlspecialchars($product['image_url']); ?>" 
-                                     alt="<?php echo htmlspecialchars($product['name']); ?>"
-                                     onerror="this.src='assets/images/placeholder.jpg'">
+                                <?php 
+                                $image_path = !empty($product['image_url']) ? "uploads/" . $product['image_url'] : "";
+                                if (!empty($image_path) && file_exists($image_path)): 
+                                ?>
+                                    <img src="<?php echo htmlspecialchars($image_path); ?>" 
+                                         alt="<?php echo htmlspecialchars($product['name']); ?>">
+                                <?php else: ?>
+                                    <div class="placeholder-image">
+                                        <i class="fas fa-image"></i>
+                                        <span>No Image Available</span>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="category-tag">
                                     <?php echo htmlspecialchars($product['category_name']); ?>
                                 </div>
