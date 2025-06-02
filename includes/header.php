@@ -23,10 +23,14 @@ session_start();
 
                 <!-- Search Bar -->
                 <div class="search-container">
-                    <div class="search-bar">
+                    <form action="products.php" method="GET" class="search-bar">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="searchInput" placeholder="Search products...">
-                    </div>
+                        <input type="text" 
+                               name="search" 
+                               id="searchInput" 
+                               placeholder="Search products..."
+                               value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+                    </form>
                 </div>
 
                 <!-- Navigation Links -->

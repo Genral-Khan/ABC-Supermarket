@@ -10,20 +10,77 @@ $categories = $conn->query("SELECT * FROM categories");
 // Get selected categories from URL
 $selected_categories = isset($_GET['categories']) ? explode(',', $_GET['categories']) : [];
 
-// Build query based on filters
+// Get search query
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+// Build query based on filters and search
 $query = "SELECT p.*, c.name as category_name 
           FROM products p 
-          JOIN categories c ON p.category_id = c.category_id";
+          JOIN categories c ON p.category_id = c.category_id
+          WHERE 1=1";
 
-if (!empty($selected_categories)) {
-    $categories_str = implode(',', array_map('intval', $selected_categories));
-    $query .= " WHERE p.category_id IN ($categories_str)";
+$params = array();
+$types = "";
+
+if (!empty($search)) {
+    $query .= " AND (p.name LIKE ? OR p.description LIKE ?)";
+    $searchTerm = "%{$search}%";
+    $params[] = $searchTerm;
+    $params[] = $searchTerm;
+    $types .= "ss";
 }
 
-$products = $conn->query($query);
+if (!empty($selected_categories)) {
+    $placeholders = str_repeat('?,', count($selected_categories) - 1) . '?';
+    $query .= " AND p.category_id IN ($placeholders)";
+    foreach ($selected_categories as $cat) {
+        $params[] = $cat;
+        $types .= "i";
+    }
+}
+
+$stmt = $conn->prepare($query);
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+$stmt->execute();
+$products = $stmt->get_result();
+$total_results = $products->num_rows;
 ?>
 
 <div class="container fade-in" style="padding: 2rem 0;">
+    <?php if (!empty($search)): ?>
+        <div class="search-results-header">
+            <div class="results-info">
+                <i class="fas fa-search"></i>
+                <h2>Search Results for "<?php echo htmlspecialchars($search); ?>"</h2>
+                <span class="results-count"><?php echo $total_results; ?> products found</span>
+            </div>
+            <?php if (!empty($selected_categories)): ?>
+                <div class="filter-tags">
+                    <span>Filtered by:</span>
+                    <?php 
+                    $categories->data_seek(0);
+                    while($category = $categories->fetch_assoc()):
+                        if (in_array($category['category_id'], $selected_categories)):
+                    ?>
+                        <span class="filter-tag">
+                            <?php echo htmlspecialchars($category['name']); ?>
+                            <a href="<?php 
+                                $new_cats = array_diff($selected_categories, [$category['category_id']]);
+                                echo 'products.php?search=' . urlencode($search) . 
+                                     (!empty($new_cats) ? '&categories=' . implode(',', $new_cats) : '');
+                            ?>" class="remove-filter">&times;</a>
+                        </span>
+                    <?php 
+                        endif;
+                    endwhile;
+                    ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+
     <div style="display: grid; grid-template-columns: 250px 1fr; gap: 2rem;">
         <!-- Filters Sidebar -->
         <div class="card filter-sidebar">
@@ -37,7 +94,10 @@ $products = $conn->query($query);
             <div class="filter-section">
                 <h4>Categories</h4>
                 <div class="category-filters">
-                    <?php while($category = $categories->fetch_assoc()): ?>
+                    <?php 
+                    $categories->data_seek(0);
+                    while($category = $categories->fetch_assoc()): 
+                    ?>
                         <label class="filter-checkbox">
                             <input type="checkbox" 
                                    value="<?php echo $category['category_id']; ?>"
@@ -58,11 +118,24 @@ $products = $conn->query($query);
         <!-- Products Grid -->
         <div>
             <?php if ($products->num_rows === 0): ?>
-                <div class="card" style="text-align: center; padding: 3rem;">
-                    <i class="fas fa-box-open" style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;"></i>
-                    <h2>No Products Found</h2>
-                    <p style="margin: 1rem 0;">Try adjusting your filters or search criteria.</p>
-                    <button onclick="clearFilters()" class="btn btn-primary">Reset Filters</button>
+                <div class="no-results-card">
+                    <div class="no-results-content">
+                        <i class="fas fa-search"></i>
+                        <h2>No Products Found</h2>
+                        <?php if (!empty($search)): ?>
+                            <p>We couldn't find any products matching "<?php echo htmlspecialchars($search); ?>"</p>
+                        <?php else: ?>
+                            <p>Try adjusting your filters or search criteria.</p>
+                        <?php endif; ?>
+                        <div class="no-results-actions">
+                            <?php if (!empty($search)): ?>
+                                <a href="products.php" class="btn btn-primary">View All Products</a>
+                            <?php endif; ?>
+                            <?php if (!empty($selected_categories)): ?>
+                                <button onclick="clearFilters()" class="btn btn-secondary">Clear Filters</button>
+                            <?php endif; ?>
+                        </div>
+                    </div>
                 </div>
             <?php else: ?>
                 <div class="product-grid">
@@ -108,18 +181,38 @@ $products = $conn->query($query);
 
 <script>
 function clearFilters() {
-    window.location.href = 'products.php';
+    const searchParams = new URLSearchParams(window.location.search);
+    const searchQuery = searchParams.get('search');
+    if (searchQuery) {
+        window.location.href = 'products.php?search=' + encodeURIComponent(searchQuery);
+    } else {
+        window.location.href = 'products.php';
+    }
 }
 
 function applyFilters() {
     const selectedCategories = Array.from(document.querySelectorAll('.category-filter:checked'))
         .map(checkbox => checkbox.value);
     
-    if (selectedCategories.length > 0) {
-        window.location.href = 'products.php?categories=' + selectedCategories.join(',');
-    } else {
-        window.location.href = 'products.php';
+    const searchParams = new URLSearchParams(window.location.search);
+    const searchQuery = searchParams.get('search');
+    
+    let url = 'products.php';
+    const params = [];
+    
+    if (searchQuery) {
+        params.push('search=' + encodeURIComponent(searchQuery));
     }
+    
+    if (selectedCategories.length > 0) {
+        params.push('categories=' + selectedCategories.join(','));
+    }
+    
+    if (params.length > 0) {
+        url += '?' + params.join('&');
+    }
+    
+    window.location.href = url;
 }
 
 function addToCart(productId) {
