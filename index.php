@@ -12,75 +12,98 @@ $categories = $conn->query("SELECT * FROM categories");
 
 <div class="container fade-in">
     <!-- Hero Section -->
-    <div style="
-        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/images/hero-bg.jpg');
-        background-size: cover;
-        background-position: center;
-        color: white;
-        padding: 4rem 2rem;
-        text-align: center;
-        border-radius: 10px;
-        margin: 2rem 0;
-    ">
-        <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--text-color)">Fresh Grocery & Clothes</h1>
-        <p style="font-size: 1.2rem; margin-bottom: 2rem;">Your one-stop shop for quality products</p>
-        <a href="products.php" class="btn btn-primary">Shop Now</a>
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to ABC Supermarket</h1>
+            <p class="hero-subtitle">Your Premier Shopping Destination</p>
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Fresh Groceries</span>
+                </div>
+                <div class="hero-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Quality Clothes</span>
+                </div>
+                <div class="hero-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Best Prices</span>
+                </div>
+            </div>
+            <div class="hero-cta">
+                <a href="products.php" class="btn btn-primary">
+                    <span>Shop Now</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="assets/images/hero.png" alt="Shopping Experience">
+        </div>
     </div>
     
     <!-- Categories Section -->
-    <h2 style="text-align: center; margin: 3rem 0; color: var(--text-color)">Our Categories</h2>
-    <div class="category-grid">
-        <?php while($category = $categories->fetch_assoc()): ?>
-            <a href="products.php?categories=<?php echo $category['category_id']; ?>" class="category-card">
-                <img src="<?php echo !empty($category['image_url']) ? 'uploads/' . $category['image_url'] : 'assets/images/category-placeholder.jpg'; ?>" 
-                     alt="<?php echo htmlspecialchars($category['name']); ?>">
-                <div class="category-overlay">
-                    <h3 class="category-title"><?php echo htmlspecialchars($category['name']); ?></h3>
-                </div>
-            </a>
-        <?php endwhile; ?>
-    </div>
+    <section id="categories">
+        <h2 class="section-title">Our Categories</h2>
+        <div class="category-grid">
+            <?php while($category = $categories->fetch_assoc()): ?>
+                <a href="products.php?categories=<?php echo $category['category_id']; ?>" class="category-card">
+                    <img src="<?php echo !empty($category['image_url']) ? 'uploads/' . $category['image_url'] : 'assets/images/category-placeholder.jpg'; ?>" 
+                         alt="<?php echo htmlspecialchars($category['name']); ?>">
+                    <div class="category-overlay">
+                        <h3 class="category-title"><?php echo htmlspecialchars($category['name']); ?></h3>
+                    </div>
+                </a>
+            <?php endwhile; ?>
+        </div>
+    </section>
     
     <!-- Services Section -->
-    <div style="margin: 4rem 0;">
-        <h2 style="text-align: center; margin-bottom: 3rem; color: var(--text-color)">Our Services</h2>
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;">
-            <div class="card" style="text-align: center;">
-                <i class="fas fa-truck" style="font-size: 2rem; color: var(--text-color);"></i>
-                <h3 style="margin: 1rem 0;">Free Delivery</h3>
-                <p>On orders above $50</p>
+    <section class="services-section">
+        <h2 class="section-title">Why Choose Us</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3>Free Delivery</h3>
+                <p>Free shipping on orders above AED 50</p>
             </div>
             
-            <div class="card" style="text-align: center;">
-                <i class="fas fa-undo" style="font-size: 2rem; color: var(--text-color);"></i>
-                <h3 style="margin: 1rem 0;">Easy Returns</h3>
-                <p>30-day return policy</p>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-undo"></i>
+                </div>
+                <h3>Easy Returns</h3>
+                <p>Hassle-free 30-day return policy</p>
             </div>
             
-            <div class="card" style="text-align: center;">
-                <i class="fas fa-headset" style="font-size: 2rem; color: var(--text-color);"></i>
-                <h3 style="margin: 1rem 0;">24/7 Support</h3>
-                <p>Round the clock assistance</p>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>24/7 Support</h3>
+                <p>Round the clock customer assistance</p>
             </div>
             
-            <div class="card" style="text-align: center;">
-                <i class="fas fa-shield-alt" style="font-size: 2rem; color: var(--text-color);"></i>
-                <h3 style="margin: 1rem 0;">Secure Payment</h3>
-                <p>100% secure checkout</p>
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Secure Payment</h3>
+                <p>100% secure payment gateway</p>
             </div>
         </div>
-    </div>
+    </section>
 </div>
 
 <script>
 function addToCart(productId) {
-    // Check if user is logged in
     <?php if(!isset($_SESSION['user_id'])): ?>
-        window.location.href = 'login.php';
+        openModal('loginModal');
         return;
     <?php endif; ?>
     
-    // Add to cart using AJAX
     fetch('add_to_cart.php', {
         method: 'POST',
         headers: {
