@@ -31,30 +31,38 @@ if ($result->num_rows === 0) {
 
 $product = $result->fetch_assoc();
 
-// Initialize cart in session if it doesn't exist
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
-}
-
-// Add to cart
-$found = false;
-foreach ($_SESSION['cart'] as &$item) {
-    if ($item['product_id'] === $product_id) {
-        $item['quantity'] += $quantity;
-        if ($item['quantity'] > 99) $item['quantity'] = 99;
-        $found = true;
-        break;
+// If user is logged in, add to database cart
+if (isset($_SESSION['user_id'])) {
+    $stmt = $conn->prepare("INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, ?)
+                          ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)");
+    $stmt->bind_param("iii", $_SESSION['user_id'], $product_id, $quantity);
+    $stmt->execute();
+} else {
+    // Initialize cart in session if it doesn't exist
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
     }
-}
 
-if (!$found) {
-    $_SESSION['cart'][] = [
-        'product_id' => $product_id,
-        'name' => $product['name'],
-        'price' => $product['price'],
-        'quantity' => $quantity,
-        'image_url' => $product['image_url']
-    ];
+    // Add to session cart
+    $found = false;
+    foreach ($_SESSION['cart'] as &$item) {
+        if ($item['product_id'] === $product_id) {
+            $item['quantity'] += $quantity;
+            if ($item['quantity'] > 99) $item['quantity'] = 99;
+            $found = true;
+            break;
+        }
+    }
+
+    if (!$found) {
+        $_SESSION['cart'][] = [
+            'product_id' => $product_id,
+            'name' => $product['name'],
+            'price' => $product['price'],
+            'quantity' => $quantity,
+            'image_url' => $product['image_url']
+        ];
+    }
 }
 
 $conn->close();

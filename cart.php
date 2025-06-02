@@ -4,10 +4,35 @@ require_once 'config/database.php';
 
 $conn = connectDB();
 $total = 0;
+$cart_items = [];
 
-// Initialize cart if not exists
-if (!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = [];
+// Get items from database if user is logged in
+if (isset($_SESSION['user_id'])) {
+    $stmt = $conn->prepare("
+        SELECT c.cart_id, c.quantity, p.* 
+        FROM cart c 
+        JOIN products p ON c.product_id = p.product_id 
+        WHERE c.user_id = ?
+    ");
+    $stmt->bind_param("i", $_SESSION['user_id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    while ($item = $result->fetch_assoc()) {
+        $cart_items[] = [
+            'product_id' => $item['product_id'],
+            'name' => $item['name'],
+            'price' => $item['price'],
+            'quantity' => $item['quantity'],
+            'image_url' => $item['image_url']
+        ];
+    }
+} else {
+    // Initialize session cart if not exists
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+    $cart_items = $_SESSION['cart'];
 }
 
 include 'includes/header.php';
@@ -16,7 +41,7 @@ include 'includes/header.php';
 <div class="container fade-in" style="padding: 2rem 0;">
     <h1 style="margin-bottom: 2rem;">Shopping Cart</h1>
 
-    <?php if (empty($_SESSION['cart'])): ?>
+    <?php if (empty($cart_items)): ?>
         <div class="card" style="text-align: center; padding: 3rem;">
             <h2>Your cart is empty</h2>
             <p style="margin: 1rem 0;">Start shopping to add items to your cart</p>
@@ -26,7 +51,7 @@ include 'includes/header.php';
         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
             <!-- Cart Items -->
             <div>
-                <?php foreach ($_SESSION['cart'] as $index => $item):
+                <?php foreach ($cart_items as $index => $item):
                     $subtotal = $item['price'] * $item['quantity'];
                     $total += $subtotal;
                 ?>
