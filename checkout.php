@@ -191,6 +191,5 @@ document.getElementById('cvv').addEventListener('input', function(e) {
 
 <?php
 $stmt->close();
-$conn->close();
 include 'includes/footer.php';
 ?> 

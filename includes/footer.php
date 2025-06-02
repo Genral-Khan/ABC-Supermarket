@@ -1,11 +1,28 @@
 <?php
+// Check if we have an active connection
+$needsConnection = false;
+$footerCategories = null;
+
 if (!isset($conn)) {
-    require_once 'config/database.php';
-    $conn = connectDB();
+    // No connection exists, create a new one
+    $needsConnection = true;
+} else {
+    // Check if the existing connection is still active
+    if (!$conn->ping()) {
+        // Connection is closed or invalid, create a new one
+        $needsConnection = true;
+    }
 }
 
-// Fetch categories for footer
-$footerCategories = $conn->query("SELECT * FROM categories");
+if ($needsConnection) {
+    require_once 'config/database.php';
+    $footerConn = connectDB();
+    $footerCategories = $footerConn->query("SELECT * FROM categories");
+    $footerConn->close();
+} else {
+    // Use the existing active connection
+    $footerCategories = $conn->query("SELECT * FROM categories");
+}
 ?>
 
     </div><!-- Close content container -->
@@ -28,13 +45,21 @@ $footerCategories = $conn->query("SELECT * FROM categories");
                 <div class="footer-section">
                     <h3 class="footer-title">Categories</h3>
                     <ul class="footer-links">
-                        <?php while($category = $footerCategories->fetch_assoc()): ?>
+                        <?php 
+                        if ($footerCategories && $footerCategories->num_rows > 0) {
+                            while($category = $footerCategories->fetch_assoc()): 
+                        ?>
                             <li>
                                 <a href="products.php?categories=<?php echo $category['category_id']; ?>">
                                     <?php echo htmlspecialchars($category['name']); ?>
                                 </a>
                             </li>
-                        <?php endwhile; ?>
+                        <?php 
+                            endwhile; 
+                        } else {
+                            echo '<li><a href="products.php">All Products</a></li>';
+                        }
+                        ?>
                     </ul>
                 </div>
 
@@ -79,14 +104,5 @@ $footerCategories = $conn->query("SELECT * FROM categories");
             </div>
         </div>
     </footer>
-    
-    <script>
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const searchTerm = e.target.value.toLowerCase();
-            // You can implement the search logic here
-            // For example, make an AJAX call to search.php
-        });
-    </script>
 </body>
-</html> 
+</html>
