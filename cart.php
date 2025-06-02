@@ -40,7 +40,7 @@ include 'includes/header.php';
 ?>
 
 <div class="container fade-in" style="padding: 2rem 0;">
-    <h1 style="margin-bottom: 2rem;">Shopping Cart</h1>
+    <h1 style="margin-bottom: 2rem; color: var(--text-color)">Shopping Cart</h1>
 
     <?php if (empty($cart_items)): ?>
         <div class="card" style="text-align: center; padding: 3rem;">
@@ -72,7 +72,7 @@ include 'includes/header.php';
                         
                         <div style="flex-grow: 1;">
                             <h3><?php echo htmlspecialchars($item['name']); ?></h3>
-                            <p>Price: $<?php echo number_format($item['price'], 2); ?></p>
+                            <p>Price: AED <?php echo number_format($item['price'], 2); ?></p>
                             
                             <div style="display: flex; align-items: center; gap: 1rem; margin-top: 1rem;">
                                 <div class="quantity-selector">
@@ -93,7 +93,7 @@ include 'includes/header.php';
                         
                         <div style="text-align: right;">
                             <p style="font-weight: bold;">Subtotal:</p>
-                            <p>$<?php echo number_format($subtotal, 2); ?></p>
+                            <p>AED <?php echo number_format($subtotal, 2); ?></p>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -107,17 +107,17 @@ include 'includes/header.php';
                     <div style="margin: 1rem 0; padding: 1rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                             <span>Subtotal:</span>
-                            <span>$<?php echo number_format($total, 2); ?></span>
+                            <span>AED <?php echo number_format($total, 2); ?></span>
                         </div>
                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                             <span>Shipping:</span>
-                            <span><?php echo $total >= 50 ? 'Free' : '$5.00'; ?></span>
+                            <span><?php echo $total >= 50 ? 'Free' : 'AED 5.00'; ?></span>
                         </div>
                     </div>
                     
                     <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
                         <span style="font-weight: bold;">Total:</span>
-                        <span style="font-weight: bold;">$<?php echo number_format($total >= 50 ? $total : $total + 5, 2); ?></span>
+                        <span style="font-weight: bold;">AED <?php echo number_format($total >= 50 ? $total : $total + 5, 2); ?></span>
                     </div>
                     
                     <?php if (isset($_SESSION['user_id'])): ?>
@@ -135,7 +135,7 @@ include 'includes/header.php';
                     <?php if ($total < 50): ?>
                         <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
                             <i class="fas fa-truck"></i>
-                            Add $<?php echo number_format(50 - $total, 2); ?> more to get free shipping!
+                            Add AED <?php echo number_format(50 - $total, 2); ?> more to get free shipping!
                         </p>
                     <?php endif; ?>
                 </div>

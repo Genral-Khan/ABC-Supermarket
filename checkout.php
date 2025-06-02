@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <div class="container fade-in" style="padding: 2rem 0;">
-    <h1 style="margin-bottom: 2rem;">Checkout</h1>
+    <h1 style="margin-bottom: 2rem; color: var(--text-color)">Checkout</h1>
     
     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
         <!-- Checkout Form -->
@@ -137,24 +137,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php foreach ($items as $item): ?>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                         <span><?php echo htmlspecialchars($item['name']); ?> (×<?php echo $item['quantity']; ?>)</span>
-                        <span>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></span>
+                        <span>AED <?php echo number_format($item['price'] * $item['quantity'], 2); ?></span>
                     </div>
                 <?php endforeach; ?>
                 
                 <div style="margin: 1rem 0; padding: 1rem 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
                         <span>Subtotal:</span>
-                        <span>$<?php echo number_format($total, 2); ?></span>
+                        <span>AED <?php echo number_format($total, 2); ?></span>
                     </div>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Shipping:</span>
-                        <span>$<?php echo $total >= 50 ? '0.00' : '5.00'; ?></span>
+                        <span>AED <?php echo $total >= 50 ? '0.00' : '5.00'; ?></span>
                     </div>
                 </div>
                 
                 <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
                     <span style="font-weight: bold;">Total:</span>
-                    <span style="font-weight: bold;">$<?php echo number_format($total >= 50 ? $total : $total + 5, 2); ?></span>
+                    <span style="font-weight: bold;">AED <?php echo number_format($total >= 50 ? $total : $total + 5, 2); ?></span>
                 </div>
             </div>
         </div>

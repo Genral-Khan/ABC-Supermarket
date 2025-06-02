@@ -164,7 +164,7 @@ $total_results = $products->num_rows;
                                 <p><?php echo htmlspecialchars(substr($product['description'], 0, 100)) . '...'; ?></p>
                                 
                                 <div class="product-footer">
-                                    <span class="price">$<?php echo number_format($product['price'], 2); ?></span>
+                                    <span class="price">AED <?php echo number_format($product['price'], 2); ?></span>
                                     <div class="product-actions">
                                         <div class="quantity-selector">
                                             <button class="qty-btn" onclick="updateQuantity(<?php echo $product['product_id']; ?>, 'decrease')">-</button>

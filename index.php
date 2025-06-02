@@ -22,13 +22,13 @@ $categories = $conn->query("SELECT * FROM categories");
         border-radius: 10px;
         margin: 2rem 0;
     ">
-        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Fresh Grocery & Clothes</h1>
+        <h1 style="font-size: 3rem; margin-bottom: 1rem; color: var(--text-color)">Fresh Grocery & Clothes</h1>
         <p style="font-size: 1.2rem; margin-bottom: 2rem;">Your one-stop shop for quality products</p>
         <a href="products.php" class="btn btn-primary">Shop Now</a>
     </div>
     
     <!-- Categories Section -->
-    <h2 style="text-align: center; margin: 3rem 0;">Our Categories</h2>
+    <h2 style="text-align: center; margin: 3rem 0; color: var(--text-color)">Our Categories</h2>
     <div class="category-grid">
         <?php while($category = $categories->fetch_assoc()): ?>
             <a href="products.php?categories=<?php echo $category['category_id']; ?>" class="category-card">
@@ -43,28 +43,28 @@ $categories = $conn->query("SELECT * FROM categories");
     
     <!-- Services Section -->
     <div style="margin: 4rem 0;">
-        <h2 style="text-align: center; margin-bottom: 3rem;">Our Services</h2>
+        <h2 style="text-align: center; margin-bottom: 3rem; color: var(--text-color)">Our Services</h2>
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;">
             <div class="card" style="text-align: center;">
-                <i class="fas fa-truck" style="font-size: 2rem; color: var(--primary-color);"></i>
+                <i class="fas fa-truck" style="font-size: 2rem; color: var(--text-color);"></i>
                 <h3 style="margin: 1rem 0;">Free Delivery</h3>
                 <p>On orders above $50</p>
             </div>
             
             <div class="card" style="text-align: center;">
-                <i class="fas fa-undo" style="font-size: 2rem; color: var(--primary-color);"></i>
+                <i class="fas fa-undo" style="font-size: 2rem; color: var(--text-color);"></i>
                 <h3 style="margin: 1rem 0;">Easy Returns</h3>
                 <p>30-day return policy</p>
             </div>
             
             <div class="card" style="text-align: center;">
-                <i class="fas fa-headset" style="font-size: 2rem; color: var(--primary-color);"></i>
+                <i class="fas fa-headset" style="font-size: 2rem; color: var(--text-color);"></i>
                 <h3 style="margin: 1rem 0;">24/7 Support</h3>
                 <p>Round the clock assistance</p>
             </div>
             
             <div class="card" style="text-align: center;">
-                <i class="fas fa-shield-alt" style="font-size: 2rem; color: var(--primary-color);"></i>
+                <i class="fas fa-shield-alt" style="font-size: 2rem; color: var(--text-color);"></i>
                 <h3 style="margin: 1rem 0;">Secure Payment</h3>
                 <p>100% secure checkout</p>
             </div>

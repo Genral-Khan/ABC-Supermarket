@@ -10,7 +10,7 @@ A simple PHP-based e-commerce website for ABC Supermarket, featuring user authen
 - Checkout process with order summary
 - Responsive design with modern UI
 - Search functionality
-- Free shipping on orders over $50
+- Free shipping on orders over AED 50
 
 ## Prerequisites
 

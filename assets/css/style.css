@@ -1,12 +1,12 @@
 :root {
-    --primary-color: #e31837;      /* Red */
-    --secondary-color: #1a0f1f;    /* Dark Purple */
-    --accent-color: #2a1b2e;       /* Light Purple */
+    --primary-color: rgb(139, 0, 0);      /* Maroon */
+    --secondary-color: #f8f8f8;    /* Light Gray */
+    --accent-color: #e6e6e6;       /* Lighter Gray */
     --light-color: #ffffff;
     --gray-color: #f5f5f5;
-    --text-color: #333333;
-    --gradient-start: #1a0f1f;
-    --gradient-end: #2d1b33;
+    --text-color: #000000;         /* Black */
+    --gradient-start: #f8f8f8;     /* Light background */
+    --gradient-end: #f0f0f0;       /* Slightly darker light background */
 }
 
 * {
@@ -25,7 +25,7 @@ body {
 
 /* Updated Navbar Styles */
 .navbar {
-    background: rgba(26, 15, 31, 0.95);
+    background: rgb(83 0 0 / 85%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 0.75rem 0;
@@ -54,7 +54,7 @@ body {
 }
 
 .navbar-brand i {
-    color: var(--primary-color);
+    color: rgb(189, 0, 0);
 }
 
 /* Search Container */
@@ -190,7 +190,7 @@ body {
     position: absolute;
     top: 100%;
     right: 0;
-    background: rgba(26, 15, 31, 0.98);
+    background: var(--gray-color);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 8px;
@@ -305,7 +305,7 @@ body {
 
 /* Cards */
 .card {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--primary-color);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 15px;
@@ -331,7 +331,7 @@ body {
 
 /* Footer */
 .footer {
-    background: rgba(26, 15, 31, 0.98);
+    background: var(--primary-color);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -353,9 +353,9 @@ body {
 }
 
 .footer-title {
-    color: var(--light-color);
+    color: var(--text-color);
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 900;
     margin-bottom: 0.5rem;
 }
 
@@ -376,7 +376,7 @@ body {
 }
 
 .social-link:hover {
-    color: var(--primary-color);
+    color: var(--text-color);
     transform: translateY(-2px);
 }
 
@@ -416,7 +416,7 @@ body {
 }
 
 .contact-info i {
-    color: var(--primary-color);
+    color: var(--text-color);
     font-size: 1.1rem;
 }
 
@@ -747,7 +747,7 @@ body {
 }
 
 .filter-checkbox:hover .checkmark {
-    border-color: var(--primary-color);
+    border-color: rgb(175, 0, 0);
 }
 
 .filter-checkbox input:checked + .checkmark {
@@ -856,7 +856,8 @@ body {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
     padding: 0.2rem;
-    width: fit-content;
+    /* width: fit-content; */
+    justify-content: space-evenly;
 }
 
 .quantity-selector input {
@@ -880,7 +881,7 @@ body {
     background: none;
     border: none;
     color: var(--light-color);
-    width: 24px;
+    width: 100%;
     height: 24px;
     display: flex;
     align-items: center;
@@ -950,7 +951,7 @@ body {
 
 /* Search Results Styles */
 .search-results-header {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--primary-color);
     border-radius: 10px;
     padding: 1.5rem;
     margin-bottom: 2rem;
@@ -968,7 +969,7 @@ body {
 
 .results-info i {
     font-size: 1.5rem;
-    color: var(--primary-color);
+    color: var(--text-color);
 }
 
 .results-info h2 {
@@ -1022,7 +1023,7 @@ body {
 
 /* No Results Card */
 .no-results-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--primary-color);
     border-radius: 10px;
     padding: 3rem;
     text-align: center;
@@ -1038,7 +1039,7 @@ body {
 
 .no-results-content i {
     font-size: 3rem;
-    color: var(--primary-color);
+    color: var(--text-color);
     margin-bottom: 1.5rem;
 }
 
@@ -1097,6 +1098,7 @@ body {
     text-decoration: none !important;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     font-weight: 500;
     border: none;
@@ -1110,4 +1112,4 @@ body {
 
 .btn:hover {
     transform: translateY(-2px);
-} 
+}
