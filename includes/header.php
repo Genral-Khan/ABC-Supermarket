@@ -33,70 +33,14 @@ session_start();
                         <a href="profile.php"><i class="fas fa-user"></i> Profile</a>
                         <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     <?php else: ?>
-                        <button onclick="openModal()" class="btn btn-primary" style="display: flex; align-items: center; gap: 0.5rem;">
-                            <i class="fas fa-sign-in-alt"></i> Sign In
-                        </button>
+                        <a href="login.php"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        <a href="register.php"><i class="fas fa-user-plus"></i> Register</a>
                     <?php endif; ?>
                 </div>
             </div>
         </div>
     </nav>
-
-    <!-- Login Modal -->
-    <div id="loginModal" class="modal">
-        <div class="modal-content card">
-            <div class="modal-header">
-                <h2 class="gradient-text">Welcome Back</h2>
-                <span class="close" onclick="closeModal()">&times;</span>
-            </div>
-            
-            <form id="loginForm" method="POST" action="login.php" class="modal-body">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" class="form-control" required>
-                </div>
-                
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
-                
-                <p style="text-align: center; margin-top: 1rem; color: var(--light-color);">
-                    Don't have an account? <a href="register.php" style="color: var(--primary-color);">Register here</a>
-                </p>
-            </form>
-        </div>
-    </div>
     
-    <div style="margin-top: 120px;"><!-- Content spacing from fixed navbar --> 
-
-    <script>
-    // Modal functionality
-    const modal = document.getElementById('loginModal');
-    
-    function openModal() {
-        modal.style.display = "flex";
-        setTimeout(() => {
-            modal.style.opacity = "1";
-            modal.querySelector('.modal-content').style.transform = "translateY(0)";
-        }, 10);
-    }
-    
-    function closeModal() {
-        modal.style.opacity = "0";
-        modal.querySelector('.modal-content').style.transform = "translateY(-20px)";
-        setTimeout(() => {
-            modal.style.display = "none";
-        }, 300);
-    }
-    
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            closeModal();
-        }
-    }
-    </script>
+    <div style="margin-top: 80px;"><!-- Content spacing from fixed navbar -->
 </body>
 </html> 
