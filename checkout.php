@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'config/database.php';
 include 'includes/header.php';
 
@@ -191,6 +192,5 @@ document.getElementById('cvv').addEventListener('input', function(e) {
 
 <?php
 $stmt->close();
-$conn->close();
 include 'includes/footer.php';
 ?> 
