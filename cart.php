@@ -13,6 +13,7 @@ if (isset($_SESSION['user_id'])) {
         FROM cart c 
         JOIN products p ON c.product_id = p.product_id 
         WHERE c.user_id = ?
+        ORDER BY c.cart_id
     ");
     $stmt->bind_param("i", $_SESSION['user_id']);
     $stmt->execute();

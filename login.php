@@ -2,6 +2,11 @@
 require_once 'config/database.php';
 session_start();
 
+// Store the redirect URL if provided
+if (isset($_GET['redirect'])) {
+    $_SESSION['redirect_after_login'] = $_GET['redirect'];
+}
+
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -48,11 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="card fade-in">
         <h2 style="text-align: center; margin-bottom: 2rem;">Login</h2>
         
-        <?php if ($error): ?>
+        <?php if (isset($_SESSION['login_error'])): ?>
+            <div class="alert alert-error"><?php echo $_SESSION['login_error']; ?></div>
+            <?php unset($_SESSION['login_error']); ?>
+        <?php elseif ($error): ?>
             <div class="alert alert-error"><?php echo $error; ?></div>
         <?php endif; ?>
         
-        <form method="POST" action="">
+        <form method="POST" action="login_process.php<?php echo isset($_GET['redirect']) ? '?redirect=' . urlencode($_GET['redirect']) : ''; ?>">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" class="form-control" required>
