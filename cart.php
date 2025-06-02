@@ -40,7 +40,7 @@ include 'includes/header.php';
 ?>
 
 <div class="container fade-in" style="padding: 2rem 0;">
-    <h1 style="margin-bottom: 2rem;">Shopping Cart</h1>
+    <h1 style="margin-bottom: 2rem; color: var(--text-color)">Shopping Cart</h1>
 
     <?php if (empty($cart_items)): ?>
         <div class="card" style="text-align: center; padding: 3rem;">

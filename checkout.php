@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <div class="container fade-in" style="padding: 2rem 0;">
-    <h1 style="margin-bottom: 2rem;">Checkout</h1>
+    <h1 style="margin-bottom: 2rem; color: var(--text-color)">Checkout</h1>
     
     <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
         <!-- Checkout Form -->
