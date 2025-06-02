@@ -31,15 +31,18 @@ include 'includes/header.php';
                     $total += $subtotal;
                 ?>
                     <div class="card" style="margin-bottom: 1rem; display: flex; gap: 1rem; padding: 1rem;">
-                        <?php if (!empty($item['image_url'])): ?>
-                            <img src="uploads/<?php echo htmlspecialchars($item['image_url']); ?>" 
-                                 alt="<?php echo htmlspecialchars($item['name']); ?>"
-                                 style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
-                        <?php else: ?>
-                            <div class="placeholder-image" style="width: 100px; height: 100px; border-radius: 5px;">
-                                <i class="fas fa-image"></i>
-                            </div>
-                        <?php endif; ?>
+                        <div style="width: 100px; height: 100px; border-radius: 5px; overflow: hidden;">
+                            <?php if (!empty($item['image_url']) && file_exists("uploads/" . $item['image_url'])): ?>
+                                <img src="uploads/<?php echo htmlspecialchars($item['image_url']); ?>" 
+                                     alt="<?php echo htmlspecialchars($item['name']); ?>"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                            <?php else: ?>
+                                <div class="placeholder-image" style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.05);">
+                                    <i class="fas fa-image" style="font-size: 2rem; opacity: 0.7;"></i>
+                                    <span style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.7;">No Image</span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                         
                         <div style="flex-grow: 1;">
                             <h3><?php echo htmlspecialchars($item['name']); ?></h3>
@@ -91,11 +94,17 @@ include 'includes/header.php';
                         <span style="font-weight: bold;">$<?php echo number_format($total >= 50 ? $total : $total + 5, 2); ?></span>
                     </div>
                     
-                    <a href="<?php echo isset($_SESSION['user_id']) ? 'checkout.php' : 'login.php?redirect=checkout.php'; ?>" 
-                       class="btn btn-primary" style="width: 100%; text-align: center;">
-                        <i class="fas fa-lock"></i>
-                        <?php echo isset($_SESSION['user_id']) ? 'Proceed to Checkout' : 'Login to Checkout'; ?>
-                    </a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <a href="checkout.php" class="btn btn-primary" style="width: 100%; text-align: center; display: block; text-decoration: none;">
+                            <i class="fas fa-lock"></i>
+                            Proceed to Checkout
+                        </a>
+                    <?php else: ?>
+                        <a href="login.php?redirect=checkout.php" class="btn btn-primary" style="width: 100%; text-align: center; display: block; text-decoration: none;">
+                            <i class="fas fa-lock"></i>
+                            Login to Checkout
+                        </a>
+                    <?php endif; ?>
                     
                     <?php if ($total < 50): ?>
                         <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
