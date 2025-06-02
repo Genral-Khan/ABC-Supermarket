@@ -74,12 +74,10 @@ INSERT INTO categories (name, description) VALUES
 -- Insert sample products
 INSERT INTO products (category_id, name, description, price, stock_quantity, image_url) VALUES
 (1, 'Chicken Breast Fillet 500g', 'Boneless skinless chicken breast fillet.', 28.00, 100, 'chicken_breast.jpg'),
-(1, 'Apples per KG', 'Fresh red apples sold per kilogram.', 8.00, 100, 'apples.jpg'),
 (1, 'Cherries 500g', 'Juicy fresh cherries, 500g pack.', 12.00, 100, 'cherries.jpg'),
-(1, 'White Eggs 30 PCS', 'Fresh medium white eggs, 30 pieces.', 28.00, 100, 'eggs.jpg'),
+(1, 'Eggs 30 PCS', 'Fresh medium eggs, 30 pieces.', 28.00, 100, 'eggs.jpg'),
 (1, 'Salmon Fillet', 'Fresh Norwegian salmon fillet.', 26.00, 100, 'salmon.jpg'),
 (1, 'Fresh Milk 3.8L', 'Full fat fresh milk in 3.8L bottle.', 8.00, 100, 'milk.jpg'),
-(1, 'Tomato Ketchup 910g', 'Tomato ketchup in squeeze bottle.', 18.00, 100, 'ketchup.jpg'),
+(1, 'Tomato Ketchup 460g', 'Tomato ketchup in squeeze bottle.', 18.00, 100, 'ketchup.jpg'),
 (1, 'Drinking Water 1.5L x12', 'Pack of 12 1.5L drinking water bottles.', 10.00, 100, 'water.jpg'),
-(1, 'Potatoes 3Kg', 'Fresh potatoes, 3kg pack.', 12.50, 100, 'potatoes.jpg'),
-(1, 'Jasmine Rice 5kg', 'Vietnam jasmine rice, 5kg bag.', 19.00, 100, 'rice.jpg');
+(1, 'Jasmine Rice 5kg', 'jasmine rice, 5kg bag.', 19.00, 100, 'rice.jpg');
