@@ -1,4 +1,9 @@
 <?php
+if (!isset($conn)) {
+    require_once 'config/database.php';
+    $conn = connectDB();
+}
+
 // Fetch categories for footer
 $footerCategories = $conn->query("SELECT * FROM categories");
 ?>

@@ -165,10 +165,22 @@ $total_results = $products->num_rows;
                                 
                                 <div class="product-footer">
                                     <span class="price">$<?php echo number_format($product['price'], 2); ?></span>
-                                    <button onclick="addToCart(<?php echo $product['product_id']; ?>)" 
-                                            class="btn btn-primary">
-                                        <i class="fas fa-cart-plus"></i> Add to Cart
-                                    </button>
+                                    <div class="product-actions">
+                                        <div class="quantity-selector">
+                                            <button class="qty-btn" onclick="updateQuantity(<?php echo $product['product_id']; ?>, 'decrease')">-</button>
+                                            <input type="number" 
+                                                   id="qty-<?php echo $product['product_id']; ?>" 
+                                                   value="1" 
+                                                   min="1" 
+                                                   max="99"
+                                                   onchange="validateQuantity(this)">
+                                            <button class="qty-btn" onclick="updateQuantity(<?php echo $product['product_id']; ?>, 'increase')">+</button>
+                                        </div>
+                                        <button onclick="addToCart(<?php echo $product['product_id']; ?>)" 
+                                                class="btn btn-primary">
+                                            <i class="fas fa-cart-plus"></i> Add to Cart
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -215,18 +227,35 @@ function applyFilters() {
     window.location.href = url;
 }
 
+function updateQuantity(productId, action) {
+    const input = document.getElementById(`qty-${productId}`);
+    let value = parseInt(input.value);
+    
+    if (action === 'increase') {
+        value = Math.min(value + 1, 99);
+    } else {
+        value = Math.max(value - 1, 1);
+    }
+    
+    input.value = value;
+}
+
+function validateQuantity(input) {
+    let value = parseInt(input.value);
+    if (isNaN(value) || value < 1) value = 1;
+    if (value > 99) value = 99;
+    input.value = value;
+}
+
 function addToCart(productId) {
-    <?php if(!isset($_SESSION['user_id'])): ?>
-        window.location.href = 'login.php';
-        return;
-    <?php endif; ?>
+    const quantity = document.getElementById(`qty-${productId}`).value;
     
     fetch('add_to_cart.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: 'product_id=' + productId
+        body: `product_id=${productId}&quantity=${quantity}`
     })
     .then(response => response.json())
     .then(data => {
