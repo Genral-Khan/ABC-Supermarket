@@ -126,9 +126,9 @@ include 'includes/header.php';
                             Proceed to Checkout
                         </a>
                     <?php else: ?>
-                        <a href="login.php?redirect=checkout.php" class="btn btn-primary" style="width: 100%; text-align: center; display: block; text-decoration: none;">
+                        <a href="#" onclick="openModal('loginModal'); return false;" class="btn btn-primary" style="width: 100%; text-align: center; display: block; text-decoration: none;">
                             <i class="fas fa-lock"></i>
-                            Login to Checkout
+                            Sign In to Checkout
                         </a>
                     <?php endif; ?>
                     

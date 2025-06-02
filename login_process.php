@@ -2,17 +2,26 @@
 session_start();
 require_once 'config/database.php';
 
+header('Content-Type: application/json');
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: login.php");
+    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
     exit();
 }
 
-$email = $_POST['email'];
+$identifier = $_POST['identifier'];
 $password = $_POST['password'];
+
+if (empty($identifier) || empty($password)) {
+    echo json_encode(['success' => false, 'message' => 'Please fill in all fields']);
+    exit();
+}
+
 $conn = connectDB();
 
-$stmt = $conn->prepare("SELECT user_id, username, password FROM users WHERE email = ?");
-$stmt->bind_param("s", $email);
+// Check if identifier is email or username
+$stmt = $conn->prepare("SELECT user_id, username, password FROM users WHERE email = ? OR username = ?");
+$stmt->bind_param("ss", $identifier, $identifier);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -59,29 +68,11 @@ if ($result->num_rows === 1) {
         // Clear session cart after merging
         unset($_SESSION['cart']);
         
-        // Check if we came from cart page
-        $referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-        if (strpos($referer, 'cart.php') !== false) {
-            header("Location: checkout.php");
-            exit();
-        }
-        
-        // Check for stored redirect URL
-        if (isset($_SESSION['redirect_after_login'])) {
-            $redirect = $_SESSION['redirect_after_login'];
-            unset($_SESSION['redirect_after_login']);
-            header("Location: $redirect");
-            exit();
-        }
-        
-        // Otherwise use the redirect parameter or default to index
-        $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : 'index.php';
-        header("Location: $redirect");
+        echo json_encode(['success' => true]);
         exit();
     }
 }
 
-$_SESSION['login_error'] = "Invalid email or password";
-header("Location: login.php" . (isset($_GET['redirect']) ? '?redirect=' . urlencode($_GET['redirect']) : ''));
+echo json_encode(['success' => false, 'message' => 'Invalid email/username or password']);
 $conn->close();
 ?> 
