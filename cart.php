@@ -46,18 +46,15 @@ include 'includes/header.php';
                             <p>Price: $<?php echo number_format($item['price'], 2); ?></p>
                             
                             <div style="display: flex; align-items: center; gap: 1rem; margin-top: 1rem;">
-                                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <button onclick="updateCartQuantity(<?php echo $index; ?>, 'decrease')"
-                                            class="btn btn-primary" style="padding: 0.5rem 1rem;">-</button>
+                                <div class="quantity-selector">
+                                    <button class="qty-btn" onclick="updateCartQuantity(<?php echo $index; ?>, 'decrease')">-</button>
                                     <input type="number" 
                                            id="qty-<?php echo $index; ?>" 
-                                           value="<?php echo $item['quantity']; ?>"
-                                           min="1"
+                                           value="<?php echo $item['quantity']; ?>" 
+                                           min="1" 
                                            max="99"
-                                           style="width: 50px; text-align: center; padding: 0.5rem;"
                                            onchange="validateAndUpdateCart(this, <?php echo $index; ?>)">
-                                    <button onclick="updateCartQuantity(<?php echo $index; ?>, 'increase')"
-                                            class="btn btn-primary" style="padding: 0.5rem 1rem;">+</button>
+                                    <button class="qty-btn" onclick="updateCartQuantity(<?php echo $index; ?>, 'increase')">+</button>
                                 </div>
                                 
                                 <button onclick="removeFromCart(<?php echo $index; ?>)"
@@ -123,6 +120,7 @@ function updateCartQuantity(index, action) {
         value = Math.max(value - 1, 1);
     }
     
+    input.value = value;
     updateCart(index, value);
 }
 
