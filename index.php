@@ -23,11 +23,11 @@ $categories = $conn->query("SELECT * FROM categories");
                 </div>
                 <div class="hero-feature">
                     <i class="fas fa-check-circle"></i>
-                    <span>Quality Clothes</span>
+                    <span>Fashionable Clothes</span>
                 </div>
                 <div class="hero-feature">
                     <i class="fas fa-check-circle"></i>
-                    <span>Best Prices</span>
+                    <span>Advance Electronics</span>
                 </div>
             </div>
             <div class="hero-cta">

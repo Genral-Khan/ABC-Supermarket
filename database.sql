@@ -66,18 +66,38 @@ CREATE TABLE order_items (
 );
 
 -- Insert sample categories
-INSERT INTO categories (name, description) VALUES
-('Grocery', 'Fresh groceries and daily essentials'),
-('Fashion', 'Trendy clothing and accessories'),
-('Electronics', 'Latest gadgets and electronics');
+INSERT INTO categories (name, description, image_url) VALUES
+('Grocery', 'Fresh groceries and daily essentials', 'Grocery.jpg'),
+('Fashion', 'Trendy clothing and accessories', 'Fashion.jpg'),
+('Electronics', 'Latest gadgets and electronics', 'Electronics.jpg');
 
 -- Insert sample products
+-- Grocery
 INSERT INTO products (category_id, name, description, price, stock_quantity, image_url) VALUES
-(1, 'Chicken Breast Fillet 500g', 'Boneless skinless chicken breast fillet.', 28.00, 100, 'chicken_breast.jpg'),
-(1, 'Cherries 500g', 'Juicy fresh cherries, 500g pack.', 12.00, 100, 'cherries.jpg'),
-(1, 'Eggs 30 PCS', 'Fresh medium eggs, 30 pieces.', 28.00, 100, 'eggs.jpg'),
-(1, 'Salmon Fillet', 'Fresh Norwegian salmon fillet.', 26.00, 100, 'salmon.jpg'),
-(1, 'Fresh Milk 3.8L', 'Full fat fresh milk in 3.8L bottle.', 8.00, 100, 'milk.jpg'),
-(1, 'Tomato Ketchup 460g', 'Tomato ketchup in squeeze bottle.', 18.00, 100, 'ketchup.jpg'),
-(1, 'Drinking Water 1.5L x12', 'Pack of 12 1.5L drinking water bottles.', 10.00, 100, 'water.jpg'),
-(1, 'Jasmine Rice 5kg', 'jasmine rice, 5kg bag.', 19.00, 100, 'rice.jpg');
+(1, 'Chicken Fillet 500g', 'Boneless skinless chicken fillet.', 8.00, 100, 'chicken.jpg'),
+(1, 'Eggs 30 PCS', 'Fresh medium-sized eggs, 30 pieces.', 15.00, 100, 'eggs.jpg'),
+(1, 'Fresh Milk 1L', 'High-quality full-fat fresh milk.', 8.00, 100, 'milk.jpg'),
+(1, 'Tomato Ketchup 460g', 'Tomato ketchup in a squeeze bottle.', 10.00, 100, 'ketchup.jpg'),
+(1, 'Drinking Water 1.5L x12', 'Pack of 12 water bottles.', 10.00, 100, 'water.jpg'),
+(1, 'Jasmine Rice 5kg', 'Premium jasmine rice, 5kg bag.', 19.00, 100, 'rice.jpg'),
+(1, 'Fresh Salmon Fillet', 'Norwegian salmon fillet.', 26.00, 100, 'salmon.jpg'),
+(1, 'Fresh Strawberries 250g', 'Sweet and juicy strawberries.', 12.00, 100, 'strawberries.jpg');
+
+-- Fashion
+INSERT INTO products (category_id, name, description, price, stock_quantity, image_url) VALUES
+(2, 'Anime T-Shirt', 'Stylish anime-printed shirt.', 39.00, 50, 'animeshirt.jpg'),
+(2, 'Red T-Shirt', 'Plain red cotton t-shirt.', 50.00, 60, 'Redshirt.jpg'),
+(2, 'Hoodie', 'Warm and soft cotton hoodie.', 10.00, 40, 'hoodie.jpg'),
+(2, 'Cap', 'Classic baseball cap.', 20.00, 100, 'cap.jpg'),
+(2, 'Skinny Jeans', 'Blue skinny jeans, stretchable.', 100.00, 30, 'skinnyjeans.jpg'),
+(2, 'Coolbag', 'Trendy fashion coolbag for outings.', 60.00, 25, 'coolbag.jpg');
+
+-- Electronics
+INSERT INTO products (category_id, name, description, price, stock_quantity, image_url) VALUES
+(3, 'iPhone 14 Pro', 'Latest iPhone 14 Pro with A16 chip.', 999.00, 20, 'iphone.jpg'),
+(3, 'Samsung Galaxy S22', 'Samsung Galaxy S22 flagship phone.', 899.00, 15, 'samsung.jpg'),
+(3, 'Huawei Mate 50', 'Huawei’s high-end smartphone.', 850.00, 15, 'huwawei.jpg'),
+(3, 'JBL Speaker', 'Portable wireless JBL speaker.', 149.00, 50, 'jbl.jpg'),
+(3, 'Smart TV 55"', 'Ultra HD Smart TV with built-in apps.', 1599.00, 10, 'tv.jpg'),
+(3, 'Apple Headphones', 'Classic Apple wired headphones with lightning connector.', 529.00, 50, 'apple.jpg'),
+(3, 'Apple AirPods Pro', 'Wireless noise-cancelling earbuds with MagSafe charging case.', 799.00, 50, 'airpods.jpeg');
