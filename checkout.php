@@ -1,14 +1,14 @@
 <?php
 session_start();
-require_once 'config/database.php';
-include 'includes/header.php';
 
+// Check login and cart before any output
 if (!isset($_SESSION['user_id'])) {
     $_SESSION['redirect_after_login'] = 'checkout.php';
     header("Location: login.php");
     exit();
 }
 
+require_once 'config/database.php';
 $conn = connectDB();
 
 // Fetch cart items for order summary
@@ -34,6 +34,8 @@ while ($item = $cart_items->fetch_assoc()) {
     $total += $subtotal;
     $items[] = $item;
 }
+
+$order_success = false;
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -61,13 +63,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param("i", $_SESSION['user_id']);
             $stmt->execute();
             
-            // Show success message
+            // Set success flag
+            $order_success = true;
             $_SESSION['order_success'] = true;
-            header("Location: order_success.php");
+            echo json_encode(['success' => true]);
             exit();
         }
     }
+    echo json_encode(['success' => false]);
+    exit();
 }
+
+include 'includes/header.php';
 ?>
 
 <div class="container fade-in" style="padding: 2rem 0;">
@@ -165,9 +172,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 document.getElementById('checkoutForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // In a real application, you would validate and process the payment here
-    // For this demo, we'll just submit the form
-    this.submit();
+    // Submit form via AJAX
+    fetch('checkout.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(new FormData(this))
+    })
+    .then(response => response.json())
+    .then(data => {
+        if(data.success) {
+            window.location.href = 'order_success.php';
+        } else {
+            alert('Error processing your order. Please try again.');
+        }
+    });
 });
 
 // Format card number input
